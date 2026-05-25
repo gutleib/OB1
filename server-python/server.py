@@ -37,7 +37,7 @@ logger = logging.getLogger("ob1-server")
 
 DATABASE_URL = os.environ["DATABASE_URL"]
 MCP_ACCESS_KEY = os.environ.get("MCP_ACCESS_KEY", "")
-CITATION_BASE_URL = os.environ.get("OPEN_BRAIN_CITATION_BASE_URL", "https://openbrain.local/thoughts")
+CITATION_BASE_URL = os.environ.get("OPEN_BRAIN_CITATION_BASE_URL", "http://localhost:7981/thoughts")
 
 mcp = FastMCP(
     "ob1-ru",
