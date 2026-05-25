@@ -279,17 +279,19 @@ async def auth_middleware(request: Request, call_next):
     return await call_next(request)
 
 
-# Build Starlette app with CORS and auth, mount MCP
+# Build MCP HTTP app first — needed for Starlette lifespan
+mcp_app = mcp.http_app(path="/")
+
+# Build Starlette app with CORS and auth, adopt MCP lifespan, mount MCP
 app = Starlette(
     middleware=[
         Middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["GET", "POST", "OPTIONS", "DELETE"],
                    allow_headers=["*"]),
         Middleware(BaseHTTPMiddleware, dispatch=auth_middleware),
-    ]
+    ],
+    lifespan=mcp_app.lifespan,
 )
-
-# Mount MCP streamable HTTP at /mcp
-app.mount("/mcp", mcp.streamable_http_app())
+app.mount("/mcp", mcp_app)
 
 # Health check
 @app.route("/health")
