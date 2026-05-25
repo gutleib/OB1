@@ -31,7 +31,7 @@ services:
       LLM_API_KEY: ${LLM_API_KEY}
       LLM_MODEL: ${LLM_MODEL:-deepseek-chat}
       MCP_ACCESS_KEY: ${MCP_ACCESS_KEY}
-      OPEN_BRAIN_CITATION_BASE_URL: ${OPEN_BRAIN_CITATION_BASE_URL:-https://openbrain.local/thoughts}
+      OPEN_BRAIN_CITATION_BASE_URL: ${OPEN_BRAIN_CITATION_BASE_URL:-http://localhost:7981/thoughts}
     depends_on:
       postgres:
         condition: service_healthy
