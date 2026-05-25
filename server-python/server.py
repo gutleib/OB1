@@ -21,14 +21,21 @@ import json
 import logging
 import os
 import re
+import warnings
 from typing import Any
 
 from dotenv import load_dotenv
 from fastmcp import FastMCP
+from fastmcp.server.lifespan import lifespan
 
 import db
 from embeddings import get_embedding, EMBEDDING_DIM
 from metadata import extract_metadata
+
+# authlib.jose is deprecated in favour of joserfc; fastmcp 3.3.x still
+# imports it internally and emits AuthlibDeprecationWarning. Suppress it.
+warnings.filterwarnings("ignore", message=".*authlib.jose.*")
+warnings.filterwarnings("ignore", module="authlib.deprecate")
 
 load_dotenv()
 
@@ -39,24 +46,21 @@ DATABASE_URL = os.environ["DATABASE_URL"]
 MCP_ACCESS_KEY = os.environ.get("MCP_ACCESS_KEY", "")
 CITATION_BASE_URL = os.environ.get("OPEN_BRAIN_CITATION_BASE_URL", "http://localhost:7981/thoughts")
 
-mcp = FastMCP(
-    "ob1-ru",
-    version="1.0.0",
-)
-
-
-# ---------------------------------------------------------------------------
-# Startup / shutdown
-# ---------------------------------------------------------------------------
-
-@mcp.lifespan
-async def lifespan():
+@lifespan
+async def ob1_lifespan(server: FastMCP) -> None:
     """Initialize DB pool on startup, close on shutdown."""
     await db.init_pool(DATABASE_URL)
     await db.init_schema()
     logger.info("OB1-RU MCP server ready")
     yield
     await db.close_pool()
+
+
+mcp = FastMCP(
+    "ob1-ru",
+    version="1.0.0",
+    lifespan=ob1_lifespan,
+)
 
 
 # ---------------------------------------------------------------------------
