@@ -21,7 +21,6 @@ import json
 import logging
 import os
 import re
-import warnings
 from typing import Any
 
 from dotenv import load_dotenv
@@ -31,11 +30,6 @@ from fastmcp.server.lifespan import lifespan
 import db
 from embeddings import get_embedding, EMBEDDING_DIM
 from metadata import extract_metadata
-
-# authlib.jose is deprecated in favour of joserfc; fastmcp 3.3.x still
-# imports it internally and emits AuthlibDeprecationWarning. Suppress it.
-warnings.filterwarnings("ignore", message=".*authlib.jose.*")
-warnings.filterwarnings("ignore", module="authlib.deprecate")
 
 load_dotenv()
 
