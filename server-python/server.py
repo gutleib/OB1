@@ -294,9 +294,10 @@ app = Starlette(
 app.mount("/mcp", mcp_app)
 
 # Health check
-@app.route("/health")
 async def health(request: Request) -> Response:
     return JSONResponse({"ok": True, "version": "1.0.0"})
+
+app.add_route("/health", health, methods=["GET"])
 
 
 if __name__ == "__main__":
