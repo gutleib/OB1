@@ -42,7 +42,6 @@ CITATION_BASE_URL = os.environ.get("OPEN_BRAIN_CITATION_BASE_URL", "http://local
 mcp = FastMCP(
     "ob1-ru",
     version="1.0.0",
-    description="OB1 Russian Fork — self-hosted knowledge memory for AI agents",
 )
 
 
