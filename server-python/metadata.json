@@ -1,0 +1,20 @@
+{
+  "name": "OB1 Russian Self-Hosted Server",
+  "description": "Самостоятельный MCP-сервер для Open Brain на Python/FastAPI с PostgreSQL+pgvector, локальными эмбеддингами (USER-bge-m3, 1024-dim) и DeepSeek для извлечения метаданных. Русский и английский языки. Не требует Supabase или OpenRouter.",
+  "category": "integrations",
+  "author": {
+    "name": "Gleb Panov",
+    "github": "gutleib"
+  },
+  "version": "1.0.0",
+  "requires": {
+    "open_brain": true,
+    "services": ["PostgreSQL 16", "pgvector", "Infinity"],
+    "tools": ["Python 3.12+", "Docker", "docker-compose"]
+  },
+  "tags": ["self-hosted", "russian", "mcp", "pgvector", "deepseek", "embeddings", "server"],
+  "difficulty": "intermediate",
+  "estimated_time": "30 minutes",
+  "created": "2026-05-25",
+  "updated": "2026-05-25"
+}
