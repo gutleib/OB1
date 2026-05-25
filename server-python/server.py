@@ -4,7 +4,7 @@ OB1 Russian Fork — Self-Hosted MCP Server
 Drop-in replacement for the Supabase Edge Function MCP server from upstream OB1.
 - PostgreSQL + pgvector (direct connection, no Supabase)
 - Infinity for embeddings (deepvk/USER-bge-m3, 1024-dim)
-- DeepSeek for metadata extraction
+- OpenAI-compatible LLM for metadata extraction
 - MCP Streamable HTTP transport
 
 Tools (mirrors original OB1 server/index.ts):

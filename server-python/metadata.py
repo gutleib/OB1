@@ -1,4 +1,4 @@
-"""Metadata extraction using DeepSeek API (OpenAI-compatible).
+"""Metadata extraction using OpenAI-compatible LLM API.
 
 Extracts: people, action_items, dates_mentioned, topics, type.
 Mirrors the original OB1 extractMetadata() from server/index.ts.
@@ -14,9 +14,9 @@ import httpx
 
 logger = logging.getLogger(__name__)
 
-DEEPSEEK_URL = os.environ.get("DEEPSEEK_URL", "https://api.deepseek.com")
-DEEPSEEK_API_KEY = os.environ.get("DEEPSEEK_API_KEY", "")
-DEEPSEEK_MODEL = os.environ.get("DEEPSEEK_MODEL", "deepseek-chat")
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://api.deepseek.com")
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
+LLM_MODEL = os.environ.get("LLM_MODEL", "deepseek-chat")
 
 EXTRACTION_PROMPT = """Extract metadata from the captured thought. Return JSON with:
 - "people": array of people mentioned (empty if none)
@@ -28,21 +28,21 @@ Only extract what's explicitly there."""
 
 
 async def extract_metadata(text: str) -> dict:
-    """Extract structured metadata from thought text via DeepSeek."""
-    if not DEEPSEEK_API_KEY:
-        logger.warning("DEEPSEEK_API_KEY not set — skipping metadata extraction")
+    """Extract structured metadata from thought text via LLM."""
+    if not LLM_API_KEY:
+        logger.warning("LLM_API_KEY not set — skipping metadata extraction")
         return {"topics": ["uncategorized"], "type": "observation"}
 
-    url = f"{DEEPSEEK_URL.rstrip('/')}/v1/chat/completions"
+    url = f"{LLM_BASE_URL.rstrip('/')}/v1/chat/completions"
     async with httpx.AsyncClient(timeout=30.0) as client:
         resp = await client.post(
             url,
             headers={
-                "Authorization": f"Bearer {DEEPSEEK_API_KEY}",
+                "Authorization": f"Bearer {LLM_API_KEY}",
                 "Content-Type": "application/json",
             },
             json={
-                "model": DEEPSEEK_MODEL,
+                "model": LLM_MODEL,
                 "messages": [
                     {"role": "system", "content": EXTRACTION_PROMPT},
                     {"role": "user", "content": text},
