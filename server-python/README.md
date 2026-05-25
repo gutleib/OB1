@@ -44,7 +44,9 @@ curl http://localhost:7997/models
 
 ```env
 DB_PASSWORD=your_secure_password
-DEEPSEEK_API_KEY=sk-your-deepseek-key
+LLM_API_KEY=sk-you...-key
+LLM_BASE_URL=https://api.deepseek.com
+LLM_MODEL=deepseek-chat
 MCP_ACCESS_KEY=your-random-access-key
 INFINITY_URL=http://localhost:7997
 ```
@@ -92,8 +94,8 @@ hermes mcp test ob1-ru
 **Ошибка подключения к PostgreSQL:**
 Проверь `docker-compose logs postgres`. База должна быть готова (healthcheck `pg_isready`).
 
-**DeepSeek не извлекает метаданные:**
-Проверь `DEEPSEEK_API_KEY`. Без ключа метаданные будут `{"topics": ["uncategorized"], "type": "observation"}` — это не ошибка, сервер работает.
+**LLM не извлекает метаданные:**
+Проверь `LLM_API_KEY`. Без ключа метаданные будут `{"topics": ["uncategorized"], "type": "observation"}` — это не ошибка, сервер работает.
 
 **MCP-инструменты не появляются в Hermes:**
 Сделай `/reset` для перезагрузки тулсета. Проверь `hermes mcp test ob1-ru`.
