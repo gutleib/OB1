@@ -92,6 +92,7 @@ $$;
 -- Upsert function (content dedup)
 -- ============================================================================
 
+DROP FUNCTION IF EXISTS upsert_thought(TEXT, JSONB);
 CREATE OR REPLACE FUNCTION upsert_thought(p_content TEXT, p_payload JSONB DEFAULT '{}')
 RETURNS TABLE(id UUID, fingerprint TEXT) AS $$
 DECLARE
