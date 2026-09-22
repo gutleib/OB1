@@ -93,10 +93,9 @@ $$;
 -- ============================================================================
 
 CREATE OR REPLACE FUNCTION upsert_thought(p_content TEXT, p_payload JSONB DEFAULT '{}')
-RETURNS JSONB AS $$
+RETURNS TABLE(id UUID, fingerprint TEXT) AS $$
 DECLARE
   v_fingerprint TEXT;
-  v_result JSONB;
   v_id UUID;
 BEGIN
   v_fingerprint := encode(sha256(convert_to(
@@ -111,8 +110,7 @@ BEGIN
       metadata = thoughts.metadata || COALESCE(EXCLUDED.metadata, '{}'::jsonb)
   RETURNING id INTO v_id;
 
-  v_result := jsonb_build_object('id', v_id, 'fingerprint', v_fingerprint);
-  RETURN v_result;
+  RETURN QUERY SELECT v_id, v_fingerprint;
 END;
 $$ LANGUAGE plpgsql;
 
