@@ -1,4 +1,4 @@
-fastapi>=0.115,<1
+starlette>=0.41,<1
 uvicorn[standard]>=0.30,<1
 mcp>=1.6,<2
 fastmcp>=3,<4
