@@ -108,7 +108,7 @@ BEGIN
   ON CONFLICT (content_fingerprint) WHERE content_fingerprint IS NOT NULL DO UPDATE
   SET updated_at = now(),
       metadata = thoughts.metadata || COALESCE(EXCLUDED.metadata, '{}'::jsonb)
-  RETURNING id INTO v_id;
+  RETURNING thoughts.id INTO v_id;
 
   RETURN QUERY SELECT v_id, v_fingerprint;
 END;
